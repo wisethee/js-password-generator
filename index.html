@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Password Generator</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Password Generator</h1>
+      </header>
+      <div class="card">
+        <div class="card-header">
+          <h2>Generate a Password</h2>
+        </div>
+        <div class="card-body">
+          <textarea
+            readonly
+            id="password"
+            placeholder="Your Secure Password"
+            aria-label="Generated Password"
+          ></textarea>
+        </div>
+        <div class="card-footer">
+          <button id="generate" class="btn">Generate Password</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal">
+      <div class="modal-form">
+        <form>
+          <div class="form-controls">
+            <h6>Password Length</h6>
+            <div class="form-control column">
+              <input type="number" min="10" max="64" />
+              <span>* Please select a number between 10 and 64</span>
+            </div>
+          </div>
+
+          <div class="form-controls">
+            <h6>Select character types</h6>
+
+            <div class="form-control row">
+              <input id="numbers" type="checkbox" name="Numbers" />
+              <label for="numbers">Numbers</label>
+            </div>
+
+            <div class="form-control row">
+              <input id="lowercase-strings" type="checkbox" name="Numbers" />
+              <label for="lowercase-strings">Lowercase Strings</label>
+            </div>
+
+            <div class="form-control row">
+              <input id="uppercase-strings" type="checkbox" name="Numbers" />
+              <label for="uppercase-strings">Uppercase Strings</label>
+            </div>
+
+            <div class="form-control row">
+              <input id="special-characters" type="checkbox" name="Numbers" />
+              <label for="special-characters">Special Characters</label>
+            </div>
+          </div>
+          <button class="submit-button">Save Settings</button>
+        </form>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
