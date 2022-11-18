@@ -29,14 +29,17 @@
         </div>
       </div>
     </div>
-    <div class="modal">
+
+    <div id="modal" class="modal">
       <div class="modal-form">
         <form>
           <div class="form-controls">
             <h6>Password Length</h6>
             <div class="form-control column">
-              <input type="number" min="10" max="64" />
-              <span>* Please select a number between 10 and 64</span>
+              <input id="password-length" type="number" min="10" max="64" />
+              <span id="password-hint" class="info"
+                >* Please select a number between 10 and 64</span
+              >
             </div>
           </div>
 
@@ -44,26 +47,54 @@
             <h6>Select character types</h6>
 
             <div class="form-control row">
-              <input id="numbers" type="checkbox" name="Numbers" />
+              <input
+                id="numbers"
+                class="checkbox"
+                type="checkbox"
+                name="Numbers"
+              />
               <label for="numbers">Numbers</label>
             </div>
 
             <div class="form-control row">
-              <input id="lowercase-strings" type="checkbox" name="Numbers" />
+              <input
+                id="lowercase"
+                class="checkbox"
+                type="checkbox"
+                name="Numbers"
+              />
               <label for="lowercase-strings">Lowercase Strings</label>
             </div>
 
             <div class="form-control row">
-              <input id="uppercase-strings" type="checkbox" name="Numbers" />
+              <input
+                id="uppercase"
+                class="checkbox"
+                type="checkbox"
+                name="Numbers"
+              />
               <label for="uppercase-strings">Uppercase Strings</label>
             </div>
 
             <div class="form-control row">
-              <input id="special-characters" type="checkbox" name="Numbers" />
+              <input
+                id="characters"
+                class="checkbox"
+                type="checkbox"
+                name="Numbers"
+              />
               <label for="special-characters">Special Characters</label>
             </div>
+
+            <div class="form-control row">
+              <span id="characters-hint" class="info"
+                >* Please select at least one character type</span
+              >
+            </div>
           </div>
-          <button class="submit-button">Save Settings</button>
+          <button id="submit-button" class="submit-button">
+            Save Settings
+          </button>
         </form>
       </div>
     </div>

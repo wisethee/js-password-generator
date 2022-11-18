@@ -103,24 +103,166 @@ var upperCasedCharacters = [
  */
 
 // Function to prompt user for password options
-function getPasswordOptions() {}
+const getPasswordOptions = () => {};
 
 // Function for getting a random element from an array
-function getRandom(arr) {}
+const getRandom = (arr) => {};
 
 // Function to generate password with user input
-function generatePassword() {}
+const generatePassword = () => {};
 
 // Get references to the #generate element
-var generateBtn = document.querySelector("#generate");
+const generateBtn = document.querySelector("#generate");
 
 // Write password to the #password input
 function writePassword() {
-  var password = generatePassword();
-  var passwordText = document.querySelector("#password");
+  const password = generatePassword();
+  const passwordText = document.querySelector("#password");
 
   passwordText.value = password;
+
+  toggleModal();
 }
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
+
+/** START */
+
+/** DOM References */
+const modal = document.getElementById("modal");
+const passwordLength = document.getElementById("password-length");
+const charactersCheckboxes = document.querySelectorAll(".checkbox");
+const passwordHint = document.getElementById("password-hint");
+const charactersHint = document.getElementById("characters-hint");
+const submit = document.getElementById("submit-button");
+
+/** Variables */
+let showModal = false;
+let isUnchecked = [];
+let passwordCriteria = {};
+
+// show / hide modal
+const toggleModal = () => {
+  showModal = !showModal;
+  showModal ? modal.classList.remove("hidden") : modal.classList.add("hidden");
+  showModal
+    ? passwordLengthInputListener()
+    : removePasswordLengthInputListener();
+  showModal ? submitButtonListener() : removeSubmitButtonListener();
+  showModal ? checkboxListener() : removeCheckboxListener();
+};
+
+const resetAllCheckboxes = () => {
+  charactersCheckboxes.forEach((checkbox) => {
+    let { id, checked } = checkbox;
+    checked = false;
+    isUnchecked.push(id);
+  });
+};
+
+const resetInput = () => {
+  passwordLength.value = "";
+};
+
+const resetForm = () => {
+  resetInput();
+  resetAllCheckboxes();
+};
+
+const handleSubmitButton = (event) => {
+  event.preventDefault();
+
+  // validate passwordLength
+  if (
+    !passwordLength.value ||
+    passwordLength.value < 10 ||
+    passwordLength.value > 64
+  ) {
+    addErrorClass(passwordHint);
+    return;
+  }
+
+  if (isUnchecked.length === 4) {
+    addErrorClass(charactersHint);
+    return;
+  }
+
+  console.log(passwordCriteria);
+
+  // validate character types
+  resetForm();
+  toggleModal();
+};
+
+const addErrorClass = (el) => {
+  el.classList.remove("info");
+  el.classList.add("error");
+};
+
+const addInfoClass = (el) => {
+  el.classList.remove("error");
+  el.classList.add("info");
+};
+
+// STEP1: Present a series of prompts for password criteria
+const handlePasswordLengthInput = (event) => {
+  event.preventDefault();
+
+  const { value } = event.target;
+  value ? addInfoClass(passwordHint) : addErrorClass(passwordHint);
+
+  // add passwordLength value to passwordCriteria
+  passwordCriteria = {
+    ...passwordCriteria,
+    passwordLength: value,
+  };
+};
+
+const submitButtonListener = () => {
+  submit.addEventListener("click", handleSubmitButton);
+};
+
+const removeSubmitButtonListener = () => {
+  submit.removeEventListener("click", handleSubmitButton);
+};
+
+const passwordLengthInputListener = () =>
+  passwordLength.addEventListener("keyup", handlePasswordLengthInput);
+
+const removePasswordLengthInputListener = () => {
+  passwordLength.removeEventListener("keyup", handlePasswordLengthInput);
+};
+
+const handleCheckbox = (event) => {
+  const { id, checked } = event.target;
+  !checked
+    ? isUnchecked.push(id)
+    : (isUnchecked = isUnchecked.filter((item) => item !== id));
+
+  passwordCriteria = {
+    ...passwordCriteria,
+    [id]: checked,
+  };
+};
+
+const checkboxListener = () => {
+  charactersCheckboxes.forEach((checkbox) =>
+    checkbox.addEventListener("change", handleCheckbox)
+  );
+};
+
+const removeCheckboxListener = () => {
+  charactersCheckboxes.forEach((checkbox) =>
+    checkbox.removeEventListener("change", handleCheckbox)
+  );
+};
+
+// Init modal
+const initModal = () => {
+  modal.classList.add("hidden");
+  resetInput();
+  resetAllCheckboxes();
+};
+
+initModal();

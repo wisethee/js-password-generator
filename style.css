@@ -198,11 +198,24 @@ button[disabled] {
   padding: 4px 8px;
 }
 
-.form-control.column span {
+.form-control.column span.info,
+.form-control.row span.info,
+.form-control.column span.error,
+.form-control.row span.error {
   font-size: 12px;
   letter-spacing: 0.03em;
   margin-bottom: .5rem;
+
+}
+
+.form-control.column span.info,
+.form-control.row span.info {
   color: #8f8f8f
+}
+
+.form-control.column span.error,
+.form-control.row span.error {
+  color: #ff1f1f
 }
 
 .form-control.row {
@@ -247,4 +260,8 @@ button[disabled] {
 
 .submit-button:hover {
   background: rgba(0, 0, 0, 0.12);
+}
+
+.hidden {
+  display: none;
 }
