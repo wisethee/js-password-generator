@@ -103,13 +103,84 @@ var upperCasedCharacters = [
  */
 
 // Function to prompt user for password options
-const getPasswordOptions = () => {};
+const getPasswordOptions = () => {
+  if (!hasValidLength) {
+    addErrorClass(passwordHint);
+    return;
+  }
+
+  if (!countChecked) {
+    addErrorClass(charactersHint);
+    return;
+  }
+
+  passwordCriteria = {
+    length: Number(passwordLength.value),
+    ...hasCheckedValue,
+  };
+
+  generatePassword();
+
+  writePassword();
+
+  closeModal();
+};
 
 // Function for getting a random element from an array
-const getRandom = (arr) => {};
+const getRandom = (arr) => {
+  let counter = arr.length;
+
+  while (counter > 0) {
+    let index = Math.floor(Math.random() * counter);
+    counter--;
+    let temp = arr[counter];
+    arr[counter] = arr[index];
+    arr[index] = temp;
+  }
+  return arr;
+};
 
 // Function to generate password with user input
-const generatePassword = () => {};
+const generatePassword = () => {
+  const { length, numbers, characters, uppercase, lowercase } =
+    passwordCriteria;
+  const charsLength = Math.ceil(length / countChecked);
+  let chars = [];
+
+  if (characters) {
+    const randomSpecialCharacters = [...Array(charsLength)].map(() => {
+      return randomCharacter(specialCharacters);
+    });
+    chars.push(...randomSpecialCharacters);
+  }
+
+  if (numbers) {
+    const randomNumericCharacters = [...Array(charsLength)].map(() => {
+      return randomCharacter(numericCharacters);
+    });
+    chars.push(...randomNumericCharacters);
+  }
+
+  if (uppercase) {
+    const randomUpperCasedLetters = [...Array(charsLength)].map(() => {
+      return randomCharacter(upperCasedCharacters);
+    });
+    chars.push(...randomUpperCasedLetters);
+  }
+
+  if (lowercase) {
+    const randomLowerCasedLetters = [...Array(charsLength)].map(() => {
+      return randomCharacter(lowerCasedCharacters);
+    });
+    chars.push(...randomLowerCasedLetters);
+  }
+
+  const sliceChars = chars.slice(0, length);
+
+  const shuffledCharacters = getRandom(sliceChars).join("");
+
+  return shuffledCharacters;
+};
 
 // Get references to the #generate element
 const generateButton = document.querySelector("#generate");
@@ -189,25 +260,7 @@ const checkboxHandler = (event) => {
 
 const submitFormHandler = (event) => {
   event.preventDefault();
-
-  if (!hasValidLength) {
-    addErrorClass(passwordHint);
-    return;
-  }
-
-  if (!countChecked) {
-    addErrorClass(charactersHint);
-    return;
-  }
-
-  passwordCriteria = {
-    length: Number(passwordLength.value),
-    ...hasCheckedValue,
-  };
-
-  shuffleCharacters();
-
-  closeModal();
+  getPasswordOptions();
 };
 
 /** Listeners */
@@ -268,63 +321,4 @@ const addInfoClass = (el) => {
 /** Return a random character from data / array  */
 const randomCharacter = (data) => {
   return data[Math.floor(Math.random() * data.length)];
-};
-
-/** Return shuffle data / array  */
-const shuffle = (data) => {
-  let counter = data.length;
-
-  while (counter > 0) {
-    let index = Math.floor(Math.random() * counter);
-    counter--;
-    let temp = data[counter];
-    data[counter] = data[index];
-    data[index] = temp;
-  }
-  return data;
-};
-
-const minify = (data) => {};
-
-// --------------------------------------------------
-
-const shuffleCharacters = () => {
-  const { length, numbers, characters, uppercase, lowercase } =
-    passwordCriteria;
-  const charsLength = Math.ceil(length / countChecked);
-  let chars = [];
-
-  console.log(charsLength);
-
-  if (characters) {
-    const randomSpecialCharacters = [...Array(charsLength)].map(() => {
-      return randomCharacter(specialCharacters);
-    });
-    chars.push(...randomSpecialCharacters);
-  }
-
-  if (numbers) {
-    const randomNumericCharacters = [...Array(charsLength)].map(() => {
-      return randomCharacter(numericCharacters);
-    });
-    chars.push(...randomNumericCharacters);
-  }
-
-  if (uppercase) {
-    const randomUpperCasedLetters = [...Array(charsLength)].map(() => {
-      return randomCharacter(upperCasedCharacters);
-    });
-    chars.push(...randomUpperCasedLetters);
-  }
-
-  if (lowercase) {
-    const randomLowerCasedLetters = [...Array(charsLength)].map(() => {
-      return randomCharacter(lowerCasedCharacters);
-    });
-    chars.push(...randomLowerCasedLetters);
-  }
-
-  const shuffledCharacters = shuffle(chars).join("");
-
-  return shuffledCharacters;
 };
