@@ -194,8 +194,6 @@ function writePassword() {
 // Add event listener to generate button
 generateButton.addEventListener("click", writePassword);
 
-// /** START */
-
 /** DOM References */
 const modal = document.getElementById("modal");
 
