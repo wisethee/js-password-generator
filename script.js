@@ -120,9 +120,7 @@ const getPasswordOptions = () => {
   };
 
   generatePassword();
-
   writePassword();
-
   closeModal();
 };
 
